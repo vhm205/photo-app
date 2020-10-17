@@ -1,5 +1,5 @@
 module.exports = {
-  URL: "http://localhost:1002",
+  URL: "https://photo-baby.herokuapp.com/",
   DIR_UPLOAD: "./public/uploads",
   IMAGE_TYPE: [
     "image/png",

@@ -41,7 +41,7 @@ router.post("/login", async (req, res) => {
       maxAge: 1000 * 60 ** 2, // would expire after 60 minutes
       httpOnly: true,
       signed: true,
-      secure: false,
+      secure: true,
     });
 
     res.redirect("/cms/dashboard");
