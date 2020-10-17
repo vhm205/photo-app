@@ -1,0 +1,37 @@
+<%- include('components/header') -%> 
+<%- include('components/navbar') -%>
+
+<div class="container mt-5">
+  <div class="row header header-gallery d-flex justify-content-center mt-5">
+    <h1>BỘ SƯU TẬP <%- type %></h1>
+  </div>
+  <div class="row mt-5">
+    <% if(error) { %>
+      <div
+        class="not-found card-text d-flex justify-content-center align-items-center"
+      >
+        <div class="alert alert-dismissible alert-danger">
+          <button type="button" class="close" data-dismiss="alert">
+            &times;
+          </button>
+          <strong> <%- error %> </strong>
+        </div>
+      </div>
+    <% } %> 
+    <% if(results.length) { %>
+      <div id="gallery">
+        <% results.forEach(img => { %> 
+          <%- include('components/photo', { img: img }) %> 
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div
+        class="not-found card-text d-flex justify-content-center align-items-center"
+      >
+        NOT FOUND - 404
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include('components/footer') -%>

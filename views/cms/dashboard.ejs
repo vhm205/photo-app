@@ -1,0 +1,67 @@
+<%- include('components/header') -%> <%- include('components/navbar') -%>
+
+<div class="container mt-5">
+  <div class="row d-flex justify-content-center">
+    <form
+      name="frm-add-photo"
+      class="col-12 col-sm-6 col-md-6"
+      enctype="multipart/form-data"
+    >
+      <fieldset>
+        <legend>Thêm hình ảnh vào bộ sưu tập</legend>
+        <div class="form-group">
+          <label for="title">Tiêu đề</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            aria-describedby="emailHelp"
+            placeholder="Enter title"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <select class="custom-select" name="type">
+            <option selected value="BABY">Baby</option>
+            <option value="NEWBORN">Newborn</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="input-group mb-3">
+            <div class="custom-file">
+              <input
+                type="file"
+                name="photo"
+                class="custom-file-input"
+                id="upload-photo"
+                accept="image/*"
+                required
+              />
+              <label class="custom-file-label" for="upload-photo"
+                >Choose file</label
+              >
+            </div>
+          </div>
+        </div>
+        <% if(error) { %>
+        <div class="alert alert-dismissible alert-danger">
+          <button type="button" class="close" data-dismiss="alert">
+            &times;
+          </button>
+          <strong><%- error %></strong>
+        </div>
+        <% } %>
+        <button
+          type="button"
+          id="btn-add-photo"
+          class="btn btn-primary btn-lg btn-block"
+        >
+          Thêm photo
+        </button>
+      </fieldset>
+    </form>
+  </div>
+</div>
+
+<%- include('components/footer') -%>
