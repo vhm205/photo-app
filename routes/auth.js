@@ -46,7 +46,8 @@ router.post("/login", async (req, res) => {
 
     res.redirect("/cms/dashboard");
   } catch (error) {
-    return res.render("cms/login", { error: "Có lỗi xảy ra!!" });
+    console.log(error)
+    return res.render("cms/login", { error: "Có lỗi xảy ra!!", isLogin: false });
   }
 });
 
