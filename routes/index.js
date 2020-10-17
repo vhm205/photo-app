@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const PhotoModel = require("../models/photo.model");
+const cloudinary = require("cloudinary").v2;
 
 router.get("/", (_, res) => {
   res.render("index");
@@ -18,27 +19,41 @@ router.get("/price-baby", (_, res) => {
 });
 
 router.get("/photos-new-born", async (_, res) => {
-  try {
-    const photos = await PhotoModel.find({ type: "NEWBORN" }).sort({
-      createdAt: -1,
+  cloudinary.search
+    .expression('folder:photos/newborn')
+    .sort_by('public_id','desc')
+    .max_results(50)
+    .execute().then(result => {
+      const photos = result.resources.map(img => ({
+        image: img.secure_url,
+        status: img.status,
+        name: img.filename,
+        format: img.format,
+        type: img.resource_type,
+        createdAt: `${new Date(img.created_at).getMonth()}/${new Date(img.created_at).getFullYear()}`
+      }));
+      // toLocaleDateString
+      res.render("photos", { results: photos, type: 'NEW BORN', error: "" });
     });
-    console.log(photos)
-    res.render("photos", { results: photos, type: 'NEW BORN', error: "" });
-  } catch (error) {
-    console.log(error)
-    res.render("photos", { results: [], type: '', error });
-  }
 });
 
 router.get("/photos-baby", async (_, res) => {
-  try {
-    const photos = await PhotoModel.find({ type: "BABY" }).sort({
-      createdAt: -1,
+  cloudinary.search
+    .expression('folder:photos/baby')
+    .sort_by('public_id','desc')
+    .max_results(50)
+    .execute().then(result => {
+      const photos = result.resources.map(img => ({
+        image: img.secure_url,
+        status: img.status,
+        name: img.filename,
+        format: img.format,
+        type: img.resource_type,
+        createdAt: `${new Date(img.created_at).getMonth()}/${new Date(img.created_at).getFullYear()}`
+      }));
+      // toLocaleDateString
+      res.render("photos", { results: photos, type: 'BABY', error: "" });
     });
-    res.render("photos", { results: photos, type: 'BABY', error: "" });
-  } catch (error) {
-    res.render("photos", { results: [], type: '', error });
-  }
 });
 
 router.get("/contact", (req, res) => {
