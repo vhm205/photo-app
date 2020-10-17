@@ -22,10 +22,8 @@ router.get("/photos-new-born", async (_, res) => {
     const photos = await PhotoModel.find({ type: "NEWBORN" }).sort({
       createdAt: -1,
     });
-    console.log(photos)
     res.render("photos", { results: photos, type: 'NEW BORN', error: "" });
   } catch (error) {
-    console.log(error)
     res.render("photos", { results: [], type: '', error });
   }
 });
