@@ -4,11 +4,8 @@ const jwt = require("jsonwebtoken");
 const UserModel = require("../models/user.model");
 
 router.use(async (req, res, next) => {
-  if (
-    req.signedCookies.token &&
-    (await jwt.verify(req.signedCookies.token, process.env.SECRET_KEY))
-  ) {
-    return res.redirect("/cms/dashboard");
+  if (req.signedCookies.token && await jwt.verify(req.signedCookies.token, process.env.SECRET_KEY)) {
+    return res.redirect("/cms/dashboard");  
   }
 
   next();
@@ -24,12 +21,12 @@ router.post("/login", async (req, res) => {
 
     const checkUser = await UserModel.findOne({ username });
     if (!checkUser) {
-      return res.render("cms/login", { error: "Tài khoản không tồn tại!!" });
+      return res.render("cms/login", { error: "Tài khoản không tồn tại!!", isLogin: false });
     }
 
     const compare = await bcrypt.compare(password, checkUser.password);
     if (!compare) {
-      return res.render("cms/login", { error: "Mật khẩu không trùng khớp!!" });
+      return res.render("cms/login", { error: "Mật khẩu không trùng khớp!!", isLogin: false });
     }
 
     const token = await jwt.sign(
@@ -38,16 +35,14 @@ router.post("/login", async (req, res) => {
     );
 
     res.cookie("token", token, {
-      maxAge: 1000 * 60 ** 2, // would expire after 60 minutes
       httpOnly: true,
       signed: true,
-      secure: true,
+      secure: false,
     });
 
-    res.redirect("/cms/dashboard");
+    res.render("cms/dashboard", { error: '', isLogin: true });
   } catch (error) {
-    console.log(error)
-    return res.render("cms/login", { error: "Có lỗi xảy ra!!", isLogin: false });
+    res.render("cms/login", { error: "Có lỗi xảy ra!!", isLogin: false });
   }
 });
 

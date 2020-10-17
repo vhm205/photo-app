@@ -7,14 +7,11 @@ const configCloudinary = require("../config/upload");
 configCloudinary();
 
 router.use(async (req, res, next) => {
-  if (
-    !req.signedCookies.token ||
-    !(await jwt.verify(req.signedCookies.token, process.env.SECRET_KEY))
-  ) {
-    return res.redirect("/auth/login");
+  if (req.signedCookies.token && await jwt.verify(req.signedCookies.token, process.env.SECRET_KEY)) {
+    next();
   }
 
-  next();
+  res.redirect("/auth/login");
 });
 
 router.get("/dashboard", (_, res) => {
@@ -45,15 +42,8 @@ router.post("/add-photo", async (req, res) => {
 });
 
 router.get("/logout", async (req, res) => {
-  if (
-    req.signedCookies.token &&
-    (await jwt.verify(req.signedCookies.token, process.env.SECRET_KEY))
-  ) {
-    res.clearCookie("token");
-    return res.redirect("login");
-  }
-
-  return res.redirect("dashboard");
+  res.clearCookie("token");
+  return res.redirect("login");
 });
 
 module.exports = router;
