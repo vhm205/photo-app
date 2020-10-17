@@ -1,6 +1,5 @@
 require("dotenv").config();
 require("./config/db");
-const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const app = express();
@@ -8,10 +7,6 @@ const app = express();
 const routes = require("./routes");
 const cmsRoute = require("./routes/cms");
 const authRoute = require("./routes/auth");
-
-if (process.env.DEV === "PRODUCTION") {
-  app.use(helmet());
-}
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
