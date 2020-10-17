@@ -32,7 +32,6 @@ router.get("/photos-new-born", async (_, res) => {
         type: img.resource_type,
         createdAt: `${new Date(img.created_at).getMonth()}/${new Date(img.created_at).getFullYear()}`
       }));
-      // toLocaleDateString
       res.render("photos", { results: photos, type: 'NEW BORN', error: "" });
     });
 });
@@ -51,7 +50,6 @@ router.get("/photos-baby", async (_, res) => {
         type: img.resource_type,
         createdAt: `${new Date(img.created_at).getMonth()}/${new Date(img.created_at).getFullYear()}`
       }));
-      // toLocaleDateString
       res.render("photos", { results: photos, type: 'BABY', error: "" });
     });
 });
